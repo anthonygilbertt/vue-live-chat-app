@@ -26,7 +26,7 @@ export default {
     const { error, signup } = useSignup();
 
     const handleSubmit = async () => {
-      console.log(displayName.value, email.value, password.value);
+      console.table(displayName.value, email.value, password.value);
       await signup(email.value, password.value, displayName.value);
       console.log("User signed up");
     };

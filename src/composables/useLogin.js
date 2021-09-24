@@ -4,7 +4,7 @@ import { projectAuth } from '../firebase/config'
 const error = ref(null)
 
 // This is the func we will use to sign ppl up
-const signup = async(email, password, displayName) => {
+const login = async(email, password) => {
     // we passed in the following arguments, because when we run the function
     // we need to pass in the values of these aruments.  
 
@@ -13,11 +13,13 @@ const signup = async(email, password, displayName) => {
     error.value = null
 
     try {
-        const res = await projectAuth.createUserWithEmailAndPassword(email, password)
+        // const res = await projectAuth.createUserWithEmailAndPassword(email, password)
+        const res = await projectAuth.signInWithEmailAndPassword(email, password)
+
         if (!res) {
-            throw new Error('Could not complete signup')
+            throw new Error('Could not login')
         }
-        await res.user.updateProfile({ displayName })
+
         error.value = null
 
         console.table(res.user);
@@ -25,16 +27,14 @@ const signup = async(email, password, displayName) => {
 
     } catch (err) {
         console.log(err.message);
-        error.value = err.message
-
-
+        error.value = "Incorrect login credentials"
     }
 
 }
 
-const useSignup = () => {
-    return { error, signup }
+const useLogin = () => {
+    return { error, login }
 }
 
 
-export default useSignup
+export default useLogin
