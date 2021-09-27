@@ -10,11 +10,11 @@
 <script>
 import { ref } from "@vue/reactivity";
 import useLogin from "@/composables/useLogin.js";
-import Chat from "@/views/Chat.vue";
+import Chatroom from "@/views/Chatroom.vue";
 import { useRouter } from "vue-router";
 
 export default {
-  components: { Chat },
+  components: { Chatroom },
   setup() {
     const email = ref("");
     const password = ref("");
@@ -30,7 +30,7 @@ export default {
 
       if (!error.value) {
         console.log("user logged in");
-        router.push({ name: "Chat" });
+        router.push({ name: "Chatroom" });
       }
     };
 
