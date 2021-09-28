@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Navbar />
-    <h3>Chatroom Component</h3>
+    <h3>chatroom</h3>
   </div>
 </template>
 
