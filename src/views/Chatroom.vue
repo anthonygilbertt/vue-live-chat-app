@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Navbar />
-    <h3>chatroom</h3>
+    <NewChatForm />
   </div>
 </template>
 
@@ -10,9 +10,10 @@ import Navbar from "@/components/Navbar.vue";
 import getUser from "../composables/getUser";
 import { useRouter } from "vue-router";
 import { watch } from "@vue/runtime-core";
+import NewChatForm from "../components/NewChatForm.vue";
 
 export default {
-  components: { Navbar },
+  components: { Navbar, NewChatForm },
   setup() {
     //get the current user using the getUser composable
     const { user } = getUser();
