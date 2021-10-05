@@ -1,7 +1,7 @@
 <template>
   <div class="chat-window">
     <div v-if="error">{{ error }}</div>
-    <div v-if="documents" class="messages">
+    <div v-if="documents" class="messages" ref="messages">
       <div v-for="doc in formattedDocuments" :key="doc.id" class="single">
         <span class="created-at">{{ doc.createdAt }}</span>
         <span class="name">{{ doc.name }}</span>
@@ -14,7 +14,8 @@
 <script>
 import getCollection from "../composables/getCollection";
 import { formatDistanceToNow } from "date-fns";
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
+import { onUpdated } from "@vue/runtime-core";
 
 export default {
   setup() {
@@ -30,7 +31,16 @@ export default {
       }
     });
 
-    return { error, documents, formattedDocuments };
+    onUpdated(() => {
+      // we want to scroll to the bottom whenever the component updates
+      console.log("component has been updated");
+      messages.value.scrollTop = messages.value.scrollHeight;
+    });
+
+    // auto-scroll to bottom of messages
+    const messages = ref(null);
+
+    return { error, documents, formattedDocuments, messages };
   },
 };
 </script>
