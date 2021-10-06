@@ -1,5 +1,7 @@
 import { ref } from "@vue/reactivity";
 import { projectFirestore } from '../firebase/config'
+import { watchEffect } from "vue";
+
 
 const getCollection = (collection) => {
     const documents = ref(null)
@@ -9,7 +11,8 @@ const getCollection = (collection) => {
     let collectionRef = projectFirestore.collection(collection)
         .orderBy('createdAt')
 
-    collectionRef.onSnapshot(snap => {
+    const unsub = collectionRef.onSnapshot(snap => {
+        console.log('snapshot ');
         let results = [] //we're going to have more than 1 result,
         // so we're creating an empty array
 
@@ -28,6 +31,22 @@ const getCollection = (collection) => {
         documents.value = null
         error.value = 'could not fetch the data'
     }) //this is how you set up a real time listener
+
+
+    watchEffect(onInvalidate => {
+        // This invalidation callback is called when:
+        // - the effect is about to re - run
+        // - the watcher is stopped(i.e.when the component is unmounted if watchEffect is used inside setup()
+        //   or lifecycle hooks)
+        onInvalidate(() => {
+            // this function will run when the component unmounts
+            // in this case, we want to unsubscribe from the real-time listener
+            unsub()
+            //now we will only get 2 snapshots: 1 local & 1 from the server
+
+        })
+
+    })
 
     return { error, documents }
 }
