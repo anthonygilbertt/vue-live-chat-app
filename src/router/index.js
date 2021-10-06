@@ -19,13 +19,9 @@ const routes = [{
         if (user) {
             next({ name: 'Chatroom' }) //this allows the user access
         } else {
-
             next() //this allows the user access
         }
-        /*
-        Now, we register the auth guard inside of a route,
-            we are going to go with /chatroom
-        */
+
     }
 },
 {
